@@ -21,7 +21,6 @@ npm run dev
 
 > Note: Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
-Go To Next JS Repo 
-[https://github.com/sahlowle/appointment-next-js-app](https://github.com/sahlowle/appointment-next-js-app "https://github.com/sahlowle/appointment-next-js-app")
-
+Go To Laravel App Repo 
+[https://github.com/sahlowle/appointment-laravel](https://github.com/sahlowle/appointment-laravel "https://github.com/sahlowle/appointment-laravel")
 
