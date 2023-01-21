@@ -1,14 +1,16 @@
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
-import { format,addDays,subDays } from 'date-fns'
+import { format,setHours,setMinutes } from 'date-fns'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
 const Book = (props) => {
     const [payload, setPayload] = useState({ 
         'name':'','email':'','description':'','meet_time':1,'duration':10,'username':props.username,
-        'slug':props.slug,'meet_date':'','time_zone':'','start_date':new Date(),'end_date':new Date()
+        'slug':props.slug,'meet_date':'','time_zone':'','start_date':new Date(),'end_date':new Date(),
+        'start_time':setHours(setMinutes(new Date(), 0), 0),
+        'end_time':setHours(setMinutes(new Date(), 0), 23),
     })
 
     const [data, setData] = useState([])
@@ -73,6 +75,9 @@ const Book = (props) => {
             payload.start_date = new Date(dt.start_date);
             payload.end_date = new Date(dt.end_date); 
             payload.duration = dt.duration; 
+
+            payload.start_time = new Date(dt.end_date+" "+dt.start_time);
+            payload.end_time = new Date(dt.end_date+" "+dt.end_time);
 
             console.log(payload)
         })
@@ -228,6 +233,8 @@ const Book = (props) => {
                       includeDateIntervals={[
                         { start:payload.start_date, end: payload.end_date},
                       ]}
+                      minTime={payload.start_time}
+                      maxTime={payload.end_time}
                       dateFormat="yyyy-MM-dd | h:mm aa"
                       inline
                       timeIntervals={payload.duration}
