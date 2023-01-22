@@ -16,12 +16,14 @@ import { useRouter } from 'next/router'
 const Create = () => {
 
   const router = useRouter()
+  // console.log(router)
 
     const [errors, setErrors] = useState([])
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
+    const [host, setHost] = useState('');
 
     const onChange = (dates) => {
     const [start, end] = dates;
@@ -53,6 +55,10 @@ const Create = () => {
     const [timeZones, setTimeZones] = useState([]);
 
     useEffect(() => {
+
+      const hostName = window.location.host;
+
+      setHost(hostName)
 
       fetch('http://worldtimeapi.org/api/timezone')
         .then((res) => res.json())
@@ -197,7 +203,7 @@ const Create = () => {
                   <div className="grid grid-cols-3 gap-6">
                     <div className="col-span-3 sm:col-span-2">
                       <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
-                      Event link *: {window.location.host}/{user.username}/
+                      Event link *: {host}/{user?.username}/
                       </label>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         
