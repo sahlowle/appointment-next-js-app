@@ -12,12 +12,14 @@ import { format } from 'date-fns'
 import "react-datepicker/dist/react-datepicker.css"
 import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/router'
+import { CircleSpinner } from 'react-spinners-kit'
 
 const Create = () => {
 
   const router = useRouter()
   // console.log(router)
 
+    const [isLoading, setLoading] = useState(false)
     const [errors, setErrors] = useState([])
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
@@ -60,7 +62,7 @@ const Create = () => {
 
       setHost(hostName)
 
-      fetch('http://worldtimeapi.org/api/timezone')
+      fetch('https://worldtimeapi.org/api/timezone')
         .then((res) => res.json())
         .then((data) => {
             setTimeZones(data)
@@ -78,7 +80,10 @@ const Create = () => {
 
         console.log(payload)
 
+        setLoading(true)
+
         postForm(payload);
+
     }
     
     function slugify(str) {
@@ -106,15 +111,19 @@ const Create = () => {
         .then((res) =>{
             // console.log(res)
             if (res.data.success) {
+                
+                setLoading(false)
                 alert('Appointment Created Successfully');
                 router.push('/appointments')
+
             }
         })
         .catch(error => {
             if (error.response.status !== 422) throw error
             // console.log(error.response.data.data)
             setErrors(error.response.data.data)
-
+            
+            setLoading(false)
         })
     }
     
@@ -375,7 +384,10 @@ const Create = () => {
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    Save
+                    <div className='text-lg'> Save </div> 
+                    <div className='pl-4'>
+                    <CircleSpinner   size={30} color="#f9f9f9" loading={isLoading} />
+                    </div>
                   </button>
                 </div>
             
@@ -400,6 +412,7 @@ const Create = () => {
         </AppLayout>
     )
 }
+
 
 // export async function getStaticProps() {
 //     const response = await axios.get('/api/appointments');

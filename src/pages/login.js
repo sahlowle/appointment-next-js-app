@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { CircleSpinner } from 'react-spinners-kit'
 
 const Login = () => {
     const router = useRouter()
@@ -19,6 +20,7 @@ const Login = () => {
         redirectIfAuthenticated: '/appointments',
     })
 
+    const [isLoading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [shouldRemember, setShouldRemember] = useState(false)
@@ -35,6 +37,7 @@ const Login = () => {
 
     const submitForm = async event => {
         event.preventDefault()
+        setLoading(true)
 
         login({
             email,
@@ -42,7 +45,9 @@ const Login = () => {
             remember: shouldRemember,
             setErrors,
             setStatus,
+            setLoading,
         })
+        // setLoading(false)
     }
 
     return (
@@ -122,7 +127,12 @@ const Login = () => {
                             Forgot your password?
                         </Link>
 
-                        <Button className="ml-3">Login</Button>
+                        <Button className="ml-3">
+                            Login
+                    <div className='pl-4'>
+                    <CircleSpinner   size={20} color="#f9f9f9" loading={isLoading} />
+                    </div>
+                            </Button>
                     </div>
                 </form>
             </AuthCard>

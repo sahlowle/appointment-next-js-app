@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { format,setHours,setMinutes } from 'date-fns'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import { GridSpinner } from "react-spinners-kit";
 
 const Book = (props) => {
     const [payload, setPayload] = useState({ 
@@ -13,6 +14,7 @@ const Book = (props) => {
         'end_time':setHours(setMinutes(new Date(), 0), 23),
     })
 
+    const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
     const [timeZones, setTimeZones] = useState([]);  
@@ -25,7 +27,7 @@ const Book = (props) => {
     useEffect(() => {
 
         
-        fetch('http://worldtimeapi.org/api/timezone')
+        fetch('https://worldtimeapi.org/api/timezone')
         .then((res) => res.json())
         .then((data) => {
             setTimeZones(data)
@@ -80,15 +82,28 @@ const Book = (props) => {
             payload.end_time = new Date(dt.end_date+" "+dt.end_time);
 
             console.log(payload)
+
+            setLoading(false)
         })
         .catch(error => {
             // router.push('/404')
+            setLoading(false)
         })
         }
         
 
       }
 
+      if (isLoading) 
+  return (
+    <>
+
+    <div class="grid place-items-center h-screen">
+      <GridSpinner  size={100} color="#6a5acd" loading={isLoading} />
+    </div>
+
+    </>
+  )
     return (
     <>
       <div>

@@ -8,6 +8,7 @@ import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
+import { CircleSpinner } from 'react-spinners-kit'
 
 const Register = () => {
     const { register } = useAuth({
@@ -15,6 +16,7 @@ const Register = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
+    const [isLoading, setLoading] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
@@ -25,6 +27,8 @@ const Register = () => {
     const submitForm = event => {
         event.preventDefault()
 
+        setLoading(true)
+
         register({
             name,
             username,
@@ -32,6 +36,7 @@ const Register = () => {
             password,
             password_confirmation: passwordConfirmation,
             setErrors,
+            setLoading,
         })
     }
 
@@ -143,7 +148,11 @@ const Register = () => {
                             Already registered?
                         </Link>
 
-                        <Button className="ml-4">Register</Button>
+                        <Button className="ml-4">Register
+                        <div className='pl-4'>
+                    <CircleSpinner   size={20} color="#f9f9f9" loading={isLoading} />
+                    </div>
+                        </Button>
                     </div>
                 </form>
             </AuthCard>

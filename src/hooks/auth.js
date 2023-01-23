@@ -19,34 +19,36 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
-    const register = async ({ setErrors, ...props }) => {
-        await csrf()
+    const register = async ({ setErrors,setLoading, ...props }) => {
+        // await csrf()
 
         setErrors([])
 
         axios
             .post('/register', props)
-            .then(() => mutate())
+            .then(() => { mutate(); setLoading(false); })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
+                setLoading(false)
                 setErrors(error.response.data.errors)
             })
     }
 
-    const login = async ({ setErrors, setStatus, ...props }) => {
-        await csrf()
+    const login = async ({ setErrors, setStatus,setLoading, ...props }) => {
+        // await csrf()
 
         setErrors([])
         setStatus(null)
 
         axios
             .post('/api/login', props)
-            .then(() => mutate())
+            .then(() => { mutate(); setLoading(false); })
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
                 setErrors(error.response.data.errors)
+
+                setLoading(false)
             })
     }
 

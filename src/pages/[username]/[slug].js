@@ -20,11 +20,8 @@ const BookMeet = (query) => {
         redirectIfAuthenticated: '',
     })
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [shouldRemember, setShouldRemember] = useState(false)
+    
     const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null)
 
     useEffect(() => {
         // alert(example)
@@ -63,3 +60,5 @@ BookMeet.getInitialProps = ({ query: { username,slug } }) => {
   
 
 export default BookMeet
+
+

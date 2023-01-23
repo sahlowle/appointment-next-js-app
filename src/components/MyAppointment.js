@@ -1,12 +1,13 @@
 import axios from '../lib/axios'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { GridSpinner } from 'react-spinners-kit'
 
 
 const MyAppointment = () => {
 
 
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   const [data, setData] = useState([]);
 
@@ -18,13 +19,23 @@ const MyAppointment = () => {
     .then(response => {
       // console.log(response.data.data);
       setData(response.data.data)
+      setLoading(false)
     } )
     .catch(error => {
     })
    
   }, [])
 
-  // if (isLoading) return <p>Loading...</p>
+  if (isLoading) 
+  return (
+    <>
+
+    <div class="grid place-items-center">
+      <GridSpinner  size={100} color="#6a5acd" loading={isLoading} />
+    </div>
+
+    </>
+  )
 
   return (
     <section className="bg-gray-100">

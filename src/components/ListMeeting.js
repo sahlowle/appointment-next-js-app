@@ -2,6 +2,7 @@ import axios from '../lib/axios'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { format,addMinutes } from 'date-fns'
+import { GridSpinner } from 'react-spinners-kit'
 
 
 const ListMeeting = (props) => {
@@ -21,15 +22,28 @@ const ListMeeting = (props) => {
     .then(response => {
       // console.log(response.data.data);
       setData(response.data.data)
+      setLoading(false)
 
     //   alert(response.data.data.meet_date)
     } )
     .catch(error => {
+      setLoading(false)
     })
    
   }, [])
 
   // if (isLoading) return <p>Loading...</p>
+
+  if (isLoading) 
+  return (
+    <>
+
+    <div class="grid place-items-center">
+      <GridSpinner  size={100} color="#6a5acd" loading={isLoading} />
+    </div>
+
+    </>
+  )
 
   return (
     <section className="bg-gray-100">
